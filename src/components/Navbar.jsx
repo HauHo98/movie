@@ -3,17 +3,15 @@ import logo from "../assets/images/logo.png"
 import { Link } from "react-router-dom";
 import Contextpage from '../Contextpage';
 import { motion } from "framer-motion";
-import { HiMenuAlt1, HiX } from "react-icons/hi";
-import User from '../assets/images/User.jpg';
-import { auth } from '../../firebase';
-import { toast } from "react-toastify";
+import { FaAlignRight, FaRegWindowClose } from "react-icons/fa";
+import Searchbar from "./Searchbar";
 
 function Navbar() {
 
-    const { header, user } = useContext(Contextpage);
+    const { header, } = useContext(Contextpage);
     const [activemobile, setActivemobile] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
 
-    // console.log(user)
     const Navdata = [
         {
             id: 1,
@@ -44,51 +42,39 @@ function Navbar() {
     return (
         <>
             {/* mobilebutton */}
-            <button className="z-40 text-3xl text-black fixed right-0 bottom-0 m-6 p-4 duration-150 rounded-full active:scale-90 bg-white block md:hidden" onClick={() => setActivemobile(!activemobile)}>
-                {activemobile ? <HiX /> : <HiMenuAlt1 />}
-            </button>
-
-            <nav className={`${activemobile ? 'block' : 'hidden'} fixed bg-black/90 md:bg-black h-full w-full md:w-[15rem] z-30 md:block`}>
+            <nav className={` w-full flex flex-col md:flex-row md:justify-between px-8 py-2 z-40 relative items-center
+            bg-gradient-to-b from-black
+            `}>
+                <div className="flex md:flex-row justify-between items-center w-full md:w-auto">
                 <motion.div
+                    className="w-[150px]"
                     animate={{ scale: 1 }}
                     initial={{ scale: 0 }}
-                    transition={{ duration: 0.4 }}
+                    transition={{ duration: 0.4  }}
                 >
-                    <Link to="/" className="logo flex flex-col justify-center items-center m-7 gap-2" onClick={() => setActivemobile(!activemobile)}>
-                        <img src={logo} alt="logo" className="w-24" />
-                        <h1 className="text-gray-400/70 font-bold text-2xl text-center">BlueBird Movies</h1>
+                    <Link to="/" className="logo flex justify-center items-center gap-2" onClick={() => setActivemobile(!activemobile)}>
+                        <img src={logo} alt="logo" className="w-12" />
+                        <h1 className="text-white font-bold text-2xl text-center">Movies</h1>
                     </Link>
                 </motion.div>
+                <div onClick={()=> setShowMenu(!showMenu)}
+                className="md:hidden text-white text-3xl">{!showMenu ? <FaAlignRight/> : <FaRegWindowClose/>}</div>
+                
 
 
-                <ul className="text-white font-semibold text-[16px] text-center px-5">
+                <ul className={`${showMenu ? 'block' : 'hidden'} md:flex bg-black md:bg-transparent fixed md:relative left-0 md:left-auto  top-[56px] md:top-auto
+                 text-white font-semibold text-[20px] md:text-[16px] text-center px-5 w-full md:w-[50%] flex-1 h-full md:h-auto`}>
                     {Navdata.map((data) => (
-                            <Link key={data.id} to={data.link}><li className={`${header == data.headername ? 'bg-blue-500/20 border-blue-600 text-white' : 'bg-gray-500/20 border-black'} p-2 my-2  hover:bg-blue-500/20 rounded-[5px] border-2 hover:border-blue-600`} onClick={() => setActivemobile(!activemobile)}>{data.Name}</li></Link>
+                            <Link key={data.id} to={data.link}><li className={`${header == data.headername ? ' text-yellow-400 md:text-white' : 'text-slate-500'} 
+                            py-2 px-5 my-2  hover:text-white`} onClick={() => {
+                                setShowMenu(false);
+                                setActivemobile(!activemobile)
+                            }}>{data.Name}</li></Link>
                     ))}
 
                 </ul>
-
-                {/* Loginsection */}
-
-                <div className="absolute bottom-0 w-full p-5 md:p-2 text-white">
-                    {user ? <>
-                        <div className="w-full bg-gray-900 px-5 py-2 gap-4 rounded-xl flex items-center font-semibold border-2 border-blue-100/10">
-                            <img src={user.photoURL == null ? User : user.photoURL} alt="user" className="h-10 rounded-full" />
-                            <h1>{user.displayName}</h1>
-                        </div>
-
-                        <div className="cursor-pointer bg-red-500 flex justify-center items-center p-2 rounded-xl mt-2" onClick={() => auth.signOut(toast.error("Logout successfully"))}>
-                            <h1>Logout</h1>
-                        </div>
-                    </>
-                        :
-                        <>
-                            <Link to="/login" className="w-full bg-gray-900 py-2 gap-4 rounded-xl flex items-center justify-center font-semibold border-2 border-blue-100/10" onClick={() => setActivemobile(!activemobile)}>
-                                <h1>Log in</h1>
-                            </Link>
-                        </>
-                    }
                 </div>
+                 <Searchbar />
             </nav>
         </>
     )

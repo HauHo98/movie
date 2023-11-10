@@ -3,7 +3,6 @@ import Contextpage from '../Contextpage';
 import Moviecard from '../components/Moviecard';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
-// import { Pagebtn } from '../components/Pagebtn';
 import { Helmet } from 'react-helmet';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -25,19 +24,19 @@ function Trending() {
     return (
         <>
             <Helmet>
-                <title>BlueBird Movies | Trending</title>
+                <title>Movies | Trending</title>
             </Helmet>
 
-            <div className='w-full bg-[#10141e] md:p-10 mb-20 md:mb-0'>
-                <Header />
+            <div className='w-full  mb-20 md:mb-0'>
+            <Header />
                 <motion.div
                     layout
                     className="flex flex-wrap relative justify-evenly md:justify-around">
-                    <AnimatePresence>
+                                            <AnimatePresence>
                         {
                             loader ? <span className="loader m-10"></span> :
                                 <>
-                                    <InfiniteScroll
+                                                                     <InfiniteScroll
                                         className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around"
                                         dataLength={trending.length} //This is important field to render the next data
                                         next={() => setPage(page + 1)}

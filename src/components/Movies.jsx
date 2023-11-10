@@ -6,6 +6,8 @@ import Genre from './Genre';
 import Header from './Header';
 // import { Pagebtn } from './Pagebtn';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Trending from '../pages/Trending';
+import HeroMovies from './HeroMovies';
 
 
 function Movies() {
@@ -35,8 +37,18 @@ function Movies() {
 
 
     return (
-
-        <div className='w-full bg-[#10141e] md:p-10 mb-20 md:mb-0'>
+        // md:p-10
+        <div className='w-full   mb-20 md:mb-0'> 
+            {/* <motion.div
+                    layout
+                    className="flex flex-wrap relative justify-evenly md:justify-around">
+                    <AnimatePresence>
+                        {
+                            loader ? <span className="loader m-10"></span> :
+                            <HeroMovies key={movies[0].id} movie={movies[0]} />
+                        }
+                    </AnimatePresence>
+                </motion.div> */}
             <Genre />
             <Header />
             <motion.div

@@ -1,11 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-//=== google firebase import start ===
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../firebase';
-import { useAuthState } from "react-firebase-hooks/auth"
-// ===================================
-import { toast } from 'react-toastify';
 
 const Contextpage = createContext();
 
@@ -22,7 +16,6 @@ export function MovieProvider({ children }) {
   const [genres, setGenres] = useState([])
   const [loader, setLoader] = useState(true);
   const [backgenre, setBackGenre] = useState(false);
-  const [user, setUser] = useAuthState(auth)//=======> firebase custom hooks state
   const navigate = useNavigate();// =====> navigate page
 
   const APIKEY = import.meta.env.VITE_API_KEY;
@@ -62,6 +55,12 @@ export function MovieProvider({ children }) {
     );
     const gen = await data.json();
     setGenres(gen.genres);
+    setLoader(false);
+
+    setMovies(movies.concat(filteredGenre.results)); // Concat new movies with previous movies, on genre change movies are reset to [] so that only movies of new genre will appear, check out useEffect on top for more information.
+    setTotalPage(filteredGenre.total_pages);
+    setLoader(false);
+    setHeader("Genres");
   }
 
   const fetchTrending = async () => {
@@ -92,22 +91,6 @@ export function MovieProvider({ children }) {
     setHeader("Favorite Movies");
   }
 
-
-  //<========= firebase Google Authentication ========>
-  const googleProvider = new GoogleAuthProvider();// =====> google auth provide
-
-  const GoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      navigate("/")
-      toast.success("Login successfully");
-    } catch (err) {
-      console.log(err)
-      navigate("/")
-    }
-  }
-  // <==========================================================>
-
   return (
     <Contextpage.Provider
       value={{
@@ -134,9 +117,7 @@ export function MovieProvider({ children }) {
         upcoming,
         GetFavorite,
         totalPage,
-        searchedMovies,
-        GoogleLogin,
-        user
+        searchedMovies
       }}
     >
       {children}

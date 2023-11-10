@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Detail } from './components/Detail';
-import Login from './auth/Login';
 import Navbar from './components/Navbar'
 import Container from './pages/Container'
 import Trending from './pages/Trending';
@@ -36,10 +35,9 @@ function App() {
       />
 
       <Navbar />
-      <div className="md:ml-[15rem]">
+      <div>
         <Routes>
           <Route path='/' element={<Container />} />
-          <Route path='/login' element={<Login />} />
           <Route path='/trending' element={<Trending />} />
           <Route path='/upcoming' element={<Upcoming />} />
           <Route path='/moviedetail/:id' element={<Detail />} />

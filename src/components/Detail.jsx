@@ -124,7 +124,9 @@ export const Detail = () => {
 
             {/* watch movie */}
             <div className='flex justify-center items-center mb-10 gap-5 flex-wrap'>
-              <Link  to={`/player/${id}/${slugify(moviedet.title)}`} className='flex border-2 border-green-600 bg-green-600/40 p-3 items-center justify-center gap-2 text-xl font-semibold rounded-full text-white'>
+              <Link  to={`/player/${id}/${slugify(moviedet.title)}`}
+               className='p-4 px-6 rounded-full transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-red-700 
+                hover:bg-red-900 flex items-center justify-center gap-2 text-xl font-semibold  text-white'>
                 <FaPlay />Watch Movie
               </Link>
             </div>

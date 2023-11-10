@@ -10,22 +10,10 @@ function Genre() {
         fetchGenre();  // Fetching Genres on Initial Render.
     }, [])
 
-
-    // const filterFunc = () => {
-    //     if (activegenre === 0) {
-    //         setFiltered(movies)
-    //     } else {
-    //         const filteredgenre = movies.filter((movie) =>
-    //           movie.genre_ids.includes(activegenre)
-    //         );
-    //         setFiltered(filteredgenre);
-    //     }
-    // }
-
     return (
         <>
         <Helmet>
-            <title>BlueBird Movies | Genres</title>
+            <title>Movies</title>
         </Helmet>
 
         <div className='flex flex-wrap justify-center px-2'>

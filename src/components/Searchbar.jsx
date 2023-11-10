@@ -43,22 +43,20 @@ function Searchbar() {
   return (
     <>
     <Helmet>
-        <title>BlueBird Movies</title>
+        <title>Movies</title>
     </Helmet>
 
-    <div className="w-full bg-gradient-to-r from-fuchsia-500 to-cyan-500 h-[10rem] md:h-[12rem]">
-      <div className='h-full w-full bg-black/30 flex justify-center items-center'>
+    <div className='w-full md:max-w-[300px] h-full flex justify-center items-center my-4'>
         <input
           type="search"
           name="searchpanel"
           id="searchpanel"
           placeholder='Search Movie'
-          className='p-3 w-full mx-10 md:w-[40rem]  rounded-xl outline-none'
+          className='md:bg-transparent p-3 h-10 w-full md:mx-10 md:w-[40rem] rounded-xl outline-none focus:bg-slate-600'
           onKeyUp={(e) => handleSearch()}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-      </div>
       </div>
       </>
   )

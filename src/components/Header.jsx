@@ -8,7 +8,8 @@ function Header() {
 
   return (
     <>
-      <header className={`flex  items-center ${backgenre ? 'justify-center gap-10 md:justify-between' : 'justify-center'} text-3xl md:text-4xl font-bold text-blue-300 py-3 px-5 md:px-10`}>
+      <header className={`flex  items-center ${backgenre ? 'justify-center gap-10 md:justify-between' : 'justify-center'} 
+      text-3xl md:text-4xl font-bold text-yellow-400  px-5 md:px-10`}>
 
         {backgenre ?
           <a href='/' className='bg-gray-600 text-white p-2 rounded-full text-xl md:text-2xl'>

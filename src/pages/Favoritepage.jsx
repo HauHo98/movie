@@ -20,10 +20,10 @@ function Favoritepage() {
     return (
         <>
           <Helmet>
-            <title>BlueBird Movies | Favorite Movies</title>
+            <title>Movies | Favorite Movies</title>
           </Helmet>
             
-            <div className='w-full bg-[#10141e] md:p-10 mb-20 md:mb-0'>
+            <div className='w-full  md:p-10 mb-20 md:mb-0'>
                 <Header />
                 <motion.div
                     layout
@@ -35,7 +35,7 @@ function Favoritepage() {
                                     {
                                         Object.keys(localStorageData).filter(key => !isNaN(key)).length == 0
                                             ?
-                                            <p className="text-xl text-white">No Bookmark Yet!</p>
+                                            <p className="text-xl text-white">Chưa có dấu trang nào!</p>
                                             :
                                             Object.keys(localStorageData).filter(key => !isNaN(key)).map((key, index) => (<Moviecard key={index} movie={{ ...JSON.parse(localStorageData[key]) }} />))
                                     }
