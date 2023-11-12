@@ -46,7 +46,7 @@ function Searchbar() {
         <title>Movies</title>
     </Helmet>
 
-    <div className='w-full md:max-w-[300px] h-full flex justify-center items-center my-4'>
+    <div className='w-full md:max-w-[300px] h-full flex justify-center items-center'>
         <input
           type="search"
           name="searchpanel"

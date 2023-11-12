@@ -35,9 +35,6 @@ const Player = () => {
   const onClickButton = () => {
     setIsPlaying(true)
     setShowPlayButton(false);
-    // You can add additional logic here if needed
-    // playerRef.current?.seekTo(0);
-    // playerRef.current.play()
   }
 
   const handleOnEnded = () => {
@@ -45,9 +42,6 @@ const Player = () => {
     setShowPlayButton(true);
   };
 
-  // setTimeout(() => {
-  //   isPlaying && setShowPlayButton(false);
-  // }, 3000);
 
   document.title = `Movies | ${moviedet.title}`
 

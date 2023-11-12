@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import {nanoid} from "nanoid";
 import Contextpage from '../Contextpage';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,32 +6,37 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import MovieCard from '../components/MovieCard.jsx';
 import Header from '../components/Header';
 import HeroMovies from '../components/HeroMovies.jsx';
+import ReactPaginate from 'react-paginate';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
+const itemsPerPage = 10;
 
 function Home() {
-
+    const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     const { fetchTrending, loader, page, setPage, totalPage, setTrending, trending } = useContext(Contextpage);
+
+  const [itemOffset, setItemOffset] = useState(0);
+
+  // Simulate fetching items from another resources.
+  // (This could be items from props; or items loaded in a local state
+  // from an API endpoint with useEffect and useState)
+  const endOffset = itemOffset + itemsPerPage;
+  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  const currentItems = trending.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(items.length / itemsPerPage);
 
     useEffect(() => {
         setPage(1) // Reset Page to 1 on initial render.
         fetchTrending();
     }, []);
-    
-    // useEffect(() => {
-    //     setMovies([])  // Reset movies on genre change so that movies of other genre will not appear at top.
-    //     setPage(0)
-    //     /* Set page to 0, it will automatically increment to 1 and will cause re render even if the page is already set to 1. The increment function is in context page.
-    //     It is important to set page to 0, as on changing genre, if page is already set to 1 then the fetch function will not work as the page state variable is not changed, that's why we are setting page to 0 to force re-render. 
-    //     */
-    // }, [activegenre]);
 
-    // useEffect(() => {
-    //     console.log(trending);
-    //   console.log(page)
-    //     if (page > 0) {
-    //         fetchTrending();
-    //     }
-    // }, [page])
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % items.length;
+        console.log(
+          `User requested page number ${event.selected}, which is offset ${newOffset}`
+        );
+        setItemOffset(newOffset);
+      };
 
     return (
         // md:p-10
@@ -47,7 +52,7 @@ function Home() {
                     </AnimatePresence>
                 </motion.div>
             {/* <Genre /> */}
-            <Header />
+            {/* <Header /> */}
             <motion.div
                 layout
                 className="flex flex-wrap relative justify-evenly md:justify-around">
@@ -55,8 +60,29 @@ function Home() {
                     {
                         loader ? <span className="loader m-10"></span> :
                             <>
+                           <div className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around">
+                           {currentItems &&
+                                currentItems.map((item) => (
+                                    <MovieCard key={nanoid()} movie={item} />
+                                ))}
+                           </div>
+                            <ReactPaginate
+                              breakLabel="..."
+                              nextLabel={<div className="flex items-center gap-2">Next <FaArrowRight/></div>}
+                              onPageChange={handlePageClick}
+                              pageRangeDisplayed={5}
+                              pageCount={pageCount}
+                              previousLabel={<div className="flex items-center gap-2"><FaArrowLeft/> Prev</div>}
+                              renderOnZeroPageCount={null}
+                              className="flex p-20 mb-24"
+                              activeClassName='bg-yellow-400'
+                              previousClassName='flex mr-2 items-center justify-center p-2 px-4 bg-white text-slate-700 h-10 rounded-full'
+                              nextClassName='flex ml-2 items-center justify-center p-2 px-4 bg-white text-slate-700 h-10 rounded-full'
+                              pageClassName='flex items-center justify-center p-2 mx-2 bg-white text-slate-700 w-10 h-10 rounded-full'
+                              disabledClassName='bg-gray-500'
+                            />
                                 {/* {console.log(movies.length)} */}
-                                <InfiniteScroll
+                                {/* <InfiniteScroll
                                     className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around"
                                     dataLength={trending.length} //This is important field to render the next data
                                     next={() => setPage(page + 1)}
@@ -70,7 +96,7 @@ function Home() {
                                         <MovieCard key={nanoid()} movie={trd} />
                                     ))}
 
-                                </InfiniteScroll>
+                                </InfiniteScroll> */}
 
                             </>
                     }

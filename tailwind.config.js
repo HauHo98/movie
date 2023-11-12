@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        red_cus: "#9f322b"
+      }
+    },
   },
   plugins: [
     // eslint-disable-next-line no-undef

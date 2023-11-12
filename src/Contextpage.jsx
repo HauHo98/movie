@@ -79,7 +79,7 @@ export function MovieProvider({ children }) {
     setTrending(trending.concat(trend.results));
     setTotalPage(trend.total_pages);
     setLoader(false);
-    setHeader("Trending Movies");
+    setHeader("Trang chủ");
   }
 
   const fetchUpcoming = async () => {

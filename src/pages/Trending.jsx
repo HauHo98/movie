@@ -29,15 +29,15 @@ function Trending() {
             </Helmet>
 
             <div className='w-full  mb-20 md:mb-0'>
-            <Header />
+                <Header />
                 <motion.div
                     layout
                     className="flex flex-wrap relative justify-evenly md:justify-around">
-                                            <AnimatePresence>
+                    <AnimatePresence>
                         {
                             loader ? <span className="loader m-10"></span> :
                                 <>
-                                                                     <InfiniteScroll
+                                    <InfiniteScroll
                                         className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around"
                                         dataLength={trending.length} //This is important field to render the next data
                                         next={() => setPage(page + 1)}
