@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react'
 import { useParams } from 'react-router-dom'
-import ContextPage from '../ContextPage.jsx';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import Player from './Player';
@@ -8,12 +7,11 @@ import { nanoid } from 'nanoid';
 import MovieCardRelated from '../components/MovieCardRelated.jsx';
 import { FaCaretRight } from 'react-icons/fa';
 import { Helmet } from 'react-helmet';
+import ContextPage from '../Contextpage.jsx';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const Detail = () => {
-
-
   const { loader, setLoader, fetchMovieRelated, related } = useContext(ContextPage);
 
   const { id } = useParams()
@@ -44,10 +42,11 @@ const Detail = () => {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     fetchMovie();
     fetchCast();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   return (
     <>

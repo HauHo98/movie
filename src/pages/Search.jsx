@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from 'react'
-import ContextPage from '../ContextPage.jsx';
+import React, { useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
 import { useParams } from 'react-router-dom'
 import MovieList from '../components/MovieList.jsx';
+import ContextPage from '../Contextpage.jsx';
 
 function Search() {
     const { searchedMovies, loader, fetchSearch } = useContext(ContextPage);

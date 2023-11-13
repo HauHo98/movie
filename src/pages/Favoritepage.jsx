@@ -1,9 +1,9 @@
 import React, { useEffect, useContext, useState } from 'react'
 import Header from '../components/Header';
-import ContextPage from '../ContextPage.jsx';
 import MovieCard from '../components/MovieCard.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import ContextPage from '../Contextpage.jsx';
 
 function Favoritepage() {
 

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import logo from "../assets/images/logo.png"
 import { Link } from "react-router-dom";
-import ContextPage from '../ContextPage.jsx';
 import { motion } from "framer-motion";
 import SearchBar from "./SearchBar";
 import { MENU } from "../constants/menu";
+import ContextPage from "../Contextpage";
 
 function Navbar() {
     const { header } = useContext(ContextPage);

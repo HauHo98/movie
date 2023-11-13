@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
-import ContextPage from '../ContextPage.jsx';
 import ReactPlayer from 'react-player'
 import { FaPlay } from 'react-icons/fa'
 import noimage from '../assets/images/movies.jpg';
+import ContextPage from '../Contextpage'
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 

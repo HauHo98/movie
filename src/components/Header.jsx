@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import ContextPage from '../ContextPage.jsx';
+import ContextPage from '../Contextpage';
 
 function Header() {
   const { header } = useContext(ContextPage);

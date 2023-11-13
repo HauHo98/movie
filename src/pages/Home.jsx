@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react'
-import ContextPage from '../ContextPage.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import MovieList from '../components/MovieList.jsx'; import { useParams } from 'react-router-dom';
 import { MENU } from '../constants/menu.js';
 import Header from '../components/Header.jsx';
 import { Helmet } from 'react-helmet';
+import ContextPage from '../Contextpage.jsx';
 
 function Home() {
     const { category } = useParams();

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import { MovieProvider } from "./ContextPage.jsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
@@ -9,6 +8,7 @@ import logo from "./assets/images/logo.png"
 import Home from './pages/Home';
 import Detail from './pages/Detail';
 import Search from './pages/Search';
+import { MovieProvider } from './Contextpage';
 
 function App() {
 
