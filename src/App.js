@@ -1,26 +1,24 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Detail } from './components/Detail';
 import Navbar from './components/Navbar'
-import Container from './pages/Container'
-import Trending from './pages/Trending';
-import Upcoming from './pages/Upcoming';
-import Favorite from './pages/Favoritepage';
-import { MovieProvider } from "./Contextpage";
+import { MovieProvider } from "./ContextPage.jsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Player from './pages/Player';
-import Search from './pages/Search';
 import { Helmet } from "react-helmet";
 import logo from "./assets/images/logo.png"
 import Home from './pages/Home';
+import Detail from './pages/Detail';
+import Search from './pages/Search';
 
 function App() {
 
   return (
     <MovieProvider>
       <Helmet>
+        <meta name="charset" content="utf-8"/>
        <meta property="og:image" content={logo}/>
+       <meta name="og:locale" content="vi_VN"/>
+       <meta name="keywords" content="Phim,Phim hay,Phim vietsub, Phim hành động, Phim hài"/>
       </Helmet>
       <ToastContainer
         position="bottom-center"
@@ -38,15 +36,17 @@ function App() {
       <Navbar />
       <div>
         <Routes>
+          <Route path='/movie/:id' element={<Detail />} />
+          <Route path='/:category' element={<Home />} />
           <Route path='/' element={<Home />} />
-          <Route path='/genres' element={<Container />} />
+          {/* <Route path='/genres' element={<Container />} />
           <Route path='/upcoming' element={<Upcoming />} />
-          <Route path='/moviedetail/:id' element={<Detail />} />
+          
           <Route path="/favorite" element={<Favorite />} />
-          <Route path="/player/:id/:title" element={<Player />} /> {/*Route-1 For Player, Title is just for beauty of url, it is not used anywhere.*/}
-          <Route path="/player/:id" element={<Player />} /> {/*Route-2 For Player. Movie still available even if someone removes Title from end of the url.*/}
-          <Route path="/search/:query" element={<Container/>}/>
-          <Route path="/search/" element={<Container/>}/>
+          <Route path="/player/:id/:title" element={<Player />} /> 
+          <Route path="/player/:id" element={<Player />} />  */}
+          <Route path="/search/:query" element={<Search/>}/>
+          <Route path="/search/" element={<Search/>}/>
         </Routes>
       </div>
     </MovieProvider>

@@ -1,34 +1,27 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet';
-import Contextpage from '../Contextpage';
 import { useNavigate } from 'react-router-dom';
 import slugify from 'react-slugify';
 
 
-function Searchbar() {
-
-  const { filteredGenre, fetchSearch, setBackGenre, setGenres } = useContext(Contextpage);
+function SearchBar() {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
 
   const [typingTimeout, setTypingTimeout] = useState(null);
 
   const handleSearch = () => {
-      // Clear the previous timeout to prevent premature execution
       if (typingTimeout) {
           clearTimeout(typingTimeout);
       }
 
-      // Set a new timeout
       const newTimeout = setTimeout(() => {
           onKeyUp(value);
-      }, 500); // Adjust the timeout duration as needed (in milliseconds)
-
+      }, 500); 
       setTypingTimeout(newTimeout);
   };
 
   const onKeyUp = (query) => {
-    // console.log(query)
     if (query !== "") {
         query = query.trim();
 
@@ -46,13 +39,13 @@ function Searchbar() {
         <title>Movies</title>
     </Helmet>
 
-    <div className='w-full md:max-w-[300px] h-full flex justify-center items-center'>
+    <div className='flex h-full w-full items-center justify-center md:w-full lg:max-w-[350px]'>
         <input
           type="search"
           name="searchpanel"
           id="searchpanel"
-          placeholder='Search Movie'
-          className='md:bg-transparent p-3 h-10 w-full md:mx-10 md:w-[40rem] rounded-xl outline-none focus:bg-slate-600'
+          placeholder='Nhập tên phim cần tìm kiếm ...'
+          className='h-10 w-full rounded-xl bg-slate-600 p-3 outline-none'
           onKeyUp={(e) => handleSearch()}
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -62,4 +55,4 @@ function Searchbar() {
   )
 }
 
-export default Searchbar
+export default SearchBar

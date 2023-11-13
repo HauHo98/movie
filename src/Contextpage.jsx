@@ -1,24 +1,16 @@
 import { createContext, useState, useEffect } from "react";
 
-const Contextpage = createContext();
+const ContextPage = createContext();
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 export function MovieProvider({ children }) {
-
-  const [header, setHeader] = useState("Trending");
-  const [totalPage, setTotalPage] = useState(null)
+  const [header, setHeader] = useState("Trang chủ");
   const [movies, setMovies] = useState([]);
+  const [related, setRelated] = useState([]);
   const [searchedMovies, setSearchedMovies] = useState([]);
-  const [trending, setTrending] = useState([]);
-  const [genreList, setGenreList] = useState([]);
-  const [upcoming, setUpcoming] = useState([]);
   const [page, setPage] = useState(1);
-  const [activegenre, setActiveGenre] = useState(28);
   const [genres, setGenres] = useState([])
   const [loader, setLoader] = useState(true);
-  const [backgenre, setBackGenre] = useState(false);
-
-  const APIKEY = process.env.REACT_APP_API_KEY;
-
 
   useEffect(() => {
     if (page < 1) {
@@ -26,113 +18,75 @@ export function MovieProvider({ children }) {
     }
   }, [page]);
 
+  const fetchMovieByCate = async (category) => {
+    let data;
+    if (category) {
+      data = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?with_genres=${category}&api_key=${API_KEY}&with_origin_country=IN&page=${page}`
+      );
+    } else {
+      data = await fetch(
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&with_origin_country=IN&page=${page}`
+      );
+    }
 
-  const filteredGenre = async () => {
-    const data = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?with_genres=${activegenre}&api_key=${APIKEY}&with_origin_country=IN&page=${page}`
-    );
-    const filteredGenre = await data.json();
-    setMovies(movies.concat(filteredGenre.results)); // Concat new movies with previous movies, on genre change movies are reset to [] so that only movies of new genre will appear, check out useEffect on top for more information.
-    setTotalPage(filteredGenre.total_pages);
+    const dataJson = await data.json();
+    setMovies(dataJson.results)
     setLoader(false);
-    setHeader("Genres");
-  };
+  }
+  
+  const fetchMovieRelated = async (categoryRelated) => {
+    const data = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?with_genres=${categoryRelated}&api_key=${API_KEY}&with_origin_country=IN&page=${page}`
+    );
+
+    const dataJson = await data.json();
+    setRelated(dataJson.results)
+  }
 
   const fetchSearch = async (query) => {
     const data = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&with_origin_country=IN&language=en-US&query=${query}&page=1&include_adult=false`
+      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&with_origin_country=IN&language=en-US&query=${query}&page=1&include_adult=false`
     );
-    const searchmovies = await data.json();
-    setSearchedMovies(searchmovies.results); 
+    const searchMovies = await data.json();
+    setSearchedMovies(searchMovies.results);
     setLoader(false);
-    setHeader(`Results for "${query}"`);
+    setHeader(`Kết quả tìm kiếm: "${query}"`);
   }
 
   const fetchGenre = async () => {
-    // const data = await fetch(
-    //   `https://api.themoviedb.org/3/genre/movie/list?api_key=${APIKEY}&with_origin_country=IN&language=en-US`
-    // );
-    // const gen = await data.json();
-    // setGenres(gen.genres);
-    // setLoader(false);
-
-    // setMovies(movies.concat(filteredGenre.results)); // Concat new movies with previous movies, on genre change movies are reset to [] so that only movies of new genre will appear, check out useEffect on top for more information.
-    // setTotalPage(filteredGenre.total_pages);
-    // setLoader(false);
-    // setHeader("Genres");
-
     const data = await fetch(
-      `https://api.themoviedb.org/3/genre/movie/list?api_key=${APIKEY}&with_origin_country=IN&language=en-US`
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&with_origin_country=IN&language=en-US`
     );
     const genRes = await data.json();
-    setGenreList(genreList.concat(genRes.results));
-    setTotalPage(genRes.total_pages);
-    setLoader(false);
-    setHeader("Genres Movies");
-  }
-
-  const fetchTrending = async () => {
-    const data = await fetch(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${APIKEY}&with_origin_country=IN&page=${page}`
-    );
-    const trend = await data.json();
-    setTrending(trending.concat(trend.results));
-    setTotalPage(trend.total_pages);
-    setLoader(false);
-    setHeader("Trang chủ");
-  }
-
-  const fetchUpcoming = async () => {
-    const data = await fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&with_origin_country=IN&language=en-US&page=${page}`
-    );
-    const upc = await data.json();
-    setUpcoming(upcoming.concat(upc.results));
-    setTotalPage(upc.total_pages);
-    setLoader(false);
-    setHeader("Upcoming Movies");
-  }
-
-  // creat local storage
-  const GetFavorite = () => {
-    setLoader(false);
-    setHeader("Favorite Movies");
+    setGenres(genres.concat(genRes.genres));
   }
 
   return (
-    <Contextpage.Provider
+    <ContextPage.Provider
       value={{
+        fetchMovieByCate,
+        fetchMovieRelated,
+        related,
         fetchGenre,
         genres,
         setGenres,
-        filteredGenre,
         header,
         setHeader,
         movies,
         setMovies,
         page,
         setPage,
-        activegenre,
-        setActiveGenre,
         fetchSearch,
         loader,
-        setBackGenre,
-        backgenre,
         setLoader,
-        fetchTrending,
-        trending,
-        fetchUpcoming,
-        setTrending,
-        upcoming,
-        GetFavorite,
-        totalPage,
         searchedMovies
       }}
     >
       {children}
-    </Contextpage.Provider>
+    </ContextPage.Provider>
   );
 
 }
 
-export default Contextpage
+export default ContextPage

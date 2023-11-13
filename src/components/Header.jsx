@@ -1,22 +1,15 @@
 import React, { useContext } from 'react'
-import Contextpage from '../Contextpage';
-import { HiChevronLeft } from "react-icons/hi";
+import ContextPage from '../ContextPage.jsx';
 
 function Header() {
+  const { header } = useContext(ContextPage);
 
-  const { header, backgenre } = useContext(Contextpage);
+  if(header === 'Trang chủ') return <></>
 
   return (
     <>
-      <header className={`flex  items-center ${backgenre ? 'justify-center gap-10 md:justify-between' : 'justify-center'} 
-      text-3xl md:text-4xl font-bold text-yellow-400  px-5 md:px-10`}>
-
-        {backgenre ?
-          <a href='/' className='bg-gray-600 text-white p-2 rounded-full text-xl md:text-2xl'>
-            <HiChevronLeft />
-          </a>
-          : null}
-
+      <header className={`flex items-center justify-center
+      text-xl md:text-3xl font-bold px-5 pb-5 md:px-10 md:pb-10`}>
         {header}
       </header>
 

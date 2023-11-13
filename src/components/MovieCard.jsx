@@ -1,62 +1,34 @@
-import React, { useState, useEffect ,useContext} from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import {Link} from 'react-router-dom'
 import noimage from '../assets/images/no-image.jpg'
-import { motion } from 'framer-motion'
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { AiFillStar, AiOutlineStar} from 'react-icons/ai';
-import { toast } from 'react-toastify';
-import Contextpage from '../Contextpage';
 
-function MovieCard({ movie }) {
-    const { user } = useContext(Contextpage);
+function MovieCard({movie}) {
+	return (
+		<div
+			className="card relative bg-white group
+            rounded-lg hover:z-30 
+            transform transition duration-500 hover:scale-110
+            aspect-[9/14]
+            cursor-pointer">
 
-    const [isBookmarked, setIsBookmarked] = useState(null);
+			<div
+				className='absolute bottom-0 z-20 flex w-full flex-col justify-between rounded-lg bg-gradient-to-t from-black p-3'>
+				<h1
+					className='break-normal break-words font-semibold leading-4 text-white text-md line-clamp-2 lg:text-lg'>{movie.title || movie.name}</h1>
+				<p className='text-sm text-slate-300 line-clamp-1'>{movie.overview}</p>
+				{/* {(movie.vote_average||0) > 7 ? <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-green-500'>{(movie.vote_average||0).toFixed(1)}</h1> : (movie.vote_average||0) > 5.5 ? <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-orange-400'>{(movie.vote_average||0).toFixed(1)}</h1> : <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-red-600'>{(movie.vote_average||0).toFixed(1)}</h1>} */}
+			</div>
 
-    useEffect(() => {
-        if (localStorage.getItem(movie.id)) {
-            setIsBookmarked(true);
-        } else {
-            setIsBookmarked(false);
-        }
-    }, [movie.id]);
-
-    const BookmarkMovie = () => {
-        setIsBookmarked(!isBookmarked)
-        if (isBookmarked) {
-            localStorage.removeItem(movie.id);
-        } else {
-            localStorage.setItem(movie.id, JSON.stringify(movie));
-        }
-    }
-
-    return (
-        <div
-            // initial={{ opacity: 0 }}
-            // animate={{ opacity: 1 }}
-            // exit={{ opacity: 1 }}
-            // layout
-            className="card relative
-            transform transition duration-500 hover:scale-125 hover:z-30
-            w-full md:w-60 h-[410px] md:h-[360px] my-3 mx-4 md:my-5 md:mx-0 cursor-pointer">
-            {/* bookmark buttons */}
-            <button className="absolute bg-black text-white p-2 z-20 right-0 m-3 rounded-full text-xl" onClick={BookmarkMovie}> {isBookmarked ? <AiFillStar /> : <AiOutlineStar/>}</button>
-
-            
-            <div className='absolute bottom-0 w-full flex justify-between items-end p-3 z-20 bg-gradient-to-t from-black'>
-                <h1 className='text-white text-lg font-semibold  break-normal break-words'>{movie.title || movie.name}</h1>
-
-                {(movie.vote_average||0) > 7 ? <h1 className='font-bold text-green-500 p-2 bg-zinc-900 rounded-full'>{(movie.vote_average||0).toFixed(1)}</h1> : (movie.vote_average||0) > 5.5 ? <h1 className='font-bold text-orange-400 p-2 bg-zinc-900 rounded-full'>{(movie.vote_average||0).toFixed(1)}</h1> : <h1 className='font-bold text-red-600 p-2 bg-zinc-900 rounded-full'>{(movie.vote_average||0).toFixed(1)}</h1>}
-            </div>
-
-            <Link to={`/moviedetail/${movie.id}`} className='h-full w-full shadow absolute z-10'></Link>
-
-            <div>
-                {movie.poster_path === null ? <img className='img object-cover' src={noimage} /> :
-                    <LazyLoadImage effect='blur' className='img object-cover' src={"https://image.tmdb.org/t/p/w500" + movie.poster_path} />}
-            </div>
-        </div>
-    )
+			<Link to={`/movie/${movie.id}`} className='absolute z-10 h-full w-full shadow'></Link>
+			<div>
+				{movie.poster_path === null ? <img className='object-cover img' src={noimage}/> :
+					<LazyLoadImage effect='blur' className='object-cover img'
+												 src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}/>}
+			</div>
+		</div>
+	)
 }
 
 export default MovieCard

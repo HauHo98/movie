@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="525a53a0-50c9-48f5-a86b-ba7919615f99" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Contextpage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contextpage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/Btn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/Btn.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Detail.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Genre.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HeroMovies.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MovieCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MovieCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Movies.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Pagebtn.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Searchbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Searchbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Container.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Favoritepage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Favoritepage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Player.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Player.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Search.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Search.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Trending.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Upcoming.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2Y7QD9wqzkXPqd8giemShseRBbM" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/hauho/movie-reactjs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="525a53a0-50c9-48f5-a86b-ba7919615f99" name="Changes" comment="" />
+      <created>1699874015907</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699874015907</updated>
+      <workItem from="1699874017778" duration="533000" />
+      <workItem from="1699874835102" duration="331000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

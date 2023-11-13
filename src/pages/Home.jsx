@@ -1,110 +1,61 @@
 import React, { useEffect, useContext, useState } from 'react'
-import {nanoid} from "nanoid";
-import Contextpage from '../Contextpage';
+import ContextPage from '../ContextPage.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import MovieCard from '../components/MovieCard.jsx';
-import Header from '../components/Header';
-import HeroMovies from '../components/HeroMovies.jsx';
-import ReactPaginate from 'react-paginate';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-
-const itemsPerPage = 10;
+import MovieList from '../components/MovieList.jsx'; import { useParams } from 'react-router-dom';
+import { MENU } from '../constants/menu.js';
+import Header from '../components/Header.jsx';
+import { Helmet } from 'react-helmet';
 
 function Home() {
-    const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-    const { fetchTrending, loader, page, setPage, totalPage, setTrending, trending } = useContext(Contextpage);
-
-  const [itemOffset, setItemOffset] = useState(0);
-
-  // Simulate fetching items from another resources.
-  // (This could be items from props; or items loaded in a local state
-  // from an API endpoint with useEffect and useState)
-  const endOffset = itemOffset + itemsPerPage;
-  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  const currentItems = trending.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+    const { category } = useParams();
+    const { genres, fetchGenre, fetchMovieByCate, movies, loader, setPage, setHeader, header, page } = useContext(ContextPage);
 
     useEffect(() => {
         setPage(1) // Reset Page to 1 on initial render.
-        fetchTrending();
+        fetchGenre()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % items.length;
-        console.log(
-          `User requested page number ${event.selected}, which is offset ${newOffset}`
-        );
-        setItemOffset(newOffset);
-      };
+    useEffect(() => {
+        if (category) {
+            const menuItem = MENU.find(item => item.link.endsWith(category));
+            menuItem && setHeader(menuItem.headername)
+            fetchMovieByCate('Comedy');
+        } else {
+            setHeader("Trang chủ");
+            fetchMovieByCate();
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [category])
 
     return (
-        // md:p-10
-        <div className='w-full   mb-20 md:mb-0'> 
-            <motion.div
+        <>
+            <Helmet>
+                <title>Movies | {header} {page && header !== 'Trang chủ' ? ' - Trang ' + page : ''}</title>
+                <meta name='description' content='Mô tả'></meta>
+                <meta property="og:description" content="Mô tả" />
+                <meta name="keywords" content={genres.map(item => item.name).join(',')} />
+                <link rel="canonical" href={window.location.href} />
+                <meta property="url" content={window.location.href} />
+                <meta property="og:url" content={window.location.href} />
+            </Helmet>
+            <div className='mb-20 w-full md:mb-0'>
+                <motion.div
                     layout
-                    className="flex flex-wrap relative justify-evenly md:justify-around">
+                    className="container relative mx-auto px-4 pt-4 pb-10 md:pt-10 md:pb-24">
                     <AnimatePresence>
                         {
-                            loader ? <span className="loader m-10"></span> :
-                            <HeroMovies key={trending[0].id} movie={trending[0]} />
+                            loader ? <span className="m-10 loader"></span> :
+                                <>
+                                    <Header />
+                                    <MovieList movies={movies} /></>
                         }
                     </AnimatePresence>
                 </motion.div>
-            {/* <Genre /> */}
-            {/* <Header /> */}
-            <motion.div
-                layout
-                className="flex flex-wrap relative justify-evenly md:justify-around">
-                <AnimatePresence>
-                    {
-                        loader ? <span className="loader m-10"></span> :
-                            <>
-                           <div className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around">
-                           {currentItems &&
-                                currentItems.map((item) => (
-                                    <MovieCard key={nanoid()} movie={item} />
-                                ))}
-                           </div>
-                            <ReactPaginate
-                              breakLabel="..."
-                              nextLabel={<div className="flex items-center gap-2">Next <FaArrowRight/></div>}
-                              onPageChange={handlePageClick}
-                              pageRangeDisplayed={5}
-                              pageCount={pageCount}
-                              previousLabel={<div className="flex items-center gap-2"><FaArrowLeft/> Prev</div>}
-                              renderOnZeroPageCount={null}
-                              className="flex p-20 mb-24"
-                              activeClassName='bg-yellow-400'
-                              previousClassName='flex mr-2 items-center justify-center p-2 px-4 bg-white text-slate-700 h-10 rounded-full'
-                              nextClassName='flex ml-2 items-center justify-center p-2 px-4 bg-white text-slate-700 h-10 rounded-full'
-                              pageClassName='flex items-center justify-center p-2 mx-2 bg-white text-slate-700 w-10 h-10 rounded-full'
-                              disabledClassName='bg-gray-500'
-                            />
-                                {/* {console.log(movies.length)} */}
-                                {/* <InfiniteScroll
-                                    className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around"
-                                    dataLength={trending.length} //This is important field to render the next data
-                                    next={() => setPage(page + 1)}
-                                    hasMore={page < totalPage}
-                                    loader={<span className="loader m-10"></span>}
-                                    scrollThreshol={0.9}
-                                    style={{ overflow: 'hidden' }}
-                                >
 
-                                    {trending.map((trd) => (
-                                        <MovieCard key={nanoid()} movie={trd} />
-                                    ))}
-
-                                </InfiniteScroll> */}
-
-                            </>
-                    }
-                </AnimatePresence>
-            </motion.div>
-            {/* <Pagebtn /> */}
-
-        </div>
+            </div>
+        </>
     )
 }
 
