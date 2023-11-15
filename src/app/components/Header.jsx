@@ -10,7 +10,7 @@ function Header() {
   return (
     <>
       <header className={`flex items-center justify-center
-      text-xl md:text-3xl font-bold px-5 pb-5 md:px-10 md:pb-10`}>
+      text-xl md:text-3xl font-bold px-5 pt-5 md:px-10 md:pt-10`}>
         {header}
       </header>
     </>

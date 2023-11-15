@@ -29,7 +29,7 @@ function SearchBar() {
         router.push("/");
       } else {
 
-        router.push(`/search/${slugify(query)}`)
+        router.push(`/search?s=${slugify(query)}`)
       }
     }
   };

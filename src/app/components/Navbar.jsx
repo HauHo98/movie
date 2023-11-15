@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import logo from "../assets/images/logo.png"
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,10 +8,11 @@ import SearchBar from "./SearchBar";
 import { MENU } from "../constants/menu";
 import ContextPage from "../ContextPage";
 import { nanoid } from "nanoid";
+import { useRouter } from 'next/router'
 
 
 function Navbar() {
-    const { header } = useContext(ContextPage);
+    const { header, setHeader } = useContext(ContextPage);
 
     return (
         <>
@@ -36,7 +37,7 @@ function Navbar() {
                     <ul className={`flex flex-wrap bg-transparent relative items-center gap-2
                  text-white text-[14px] text-center w-full md:w-[50%] flex-1 h-full md:h-auto`}>
                         {MENU.map((data) => (
-                            <Link key={nanoid()} href={data.link}>
+                            <Link key={nanoid()} href={data.link} onClick={()=> setHeader(data.headername)}>
                                 <li className={`${header === data.headername ? 'bg-yellow-400 text-black' : 'bg-gray-900 text-white'} 
                             p-2 hover:bg-yellow-400 hover:text-black rounded-lg `}><div
                                         className="flex items-center gap-2">{data.Name}</div></li>

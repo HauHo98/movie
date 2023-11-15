@@ -19,6 +19,7 @@
     "react-icons": "^4.12.0",
     "react-lazy-load-image-component": "^1.6.0",
     "react-paginate": "^8.2.0",
+    "react-player": "^2.13.0",
     "react-slugify": "^3.0.3",
     "tailwind-scrollbar": "^3.0.5"
   },

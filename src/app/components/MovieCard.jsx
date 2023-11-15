@@ -1,11 +1,15 @@
-import React from 'react'
+"use client";
+import React, { useContext } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import noimage from '../assets/images/no-image.jpg'
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import ContextPage from '../ContextPage';
 
 function MovieCard({movie}) {
+	const { setHeader } = useContext(ContextPage);
+
 	return (
 		<div
 			className="card relative bg-white group
@@ -22,7 +26,7 @@ function MovieCard({movie}) {
 				{/* {(movie.vote_average||0) > 7 ? <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-green-500'>{(movie.vote_average||0).toFixed(1)}</h1> : (movie.vote_average||0) > 5.5 ? <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-orange-400'>{(movie.vote_average||0).toFixed(1)}</h1> : <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-red-600'>{(movie.vote_average||0).toFixed(1)}</h1>} */}
 			</div>
 
-			<Link href={`/movie/${movie.id}`} className='absolute z-10 h-full w-full shadow'></Link>
+			<Link href={`/movie/${movie.id}`} className='absolute z-10 h-full w-full shadow' onClick={()=> setHeader("")}></Link>
 			<div>
 				{movie.poster_path === null ? <Image className='object-cover img' src={noimage} alt="no image"/> :
 					<LazyLoadImage effect='blur' className='object-cover img'

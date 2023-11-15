@@ -23,7 +23,7 @@ function MovieCardRelated({ movie }) {
                 <h2 className='break-normal break-words font-semibold text-white md:text-lg'>{movie.title || movie.name}</h2>
             </div>
 
-            <Link to={`/movie/${movie.id}`} className='absolute z-10 h-full w-full shadow'></Link>
+            <Link href={`/movie/${movie.id}`} className='absolute z-10 h-full w-full shadow'></Link>
 
             <div>
                 {movie.poster_path === null ? <Image className='rounded-lg object-cover img' src={noImage} alt=""/> :
