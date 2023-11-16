@@ -1,10 +1,12 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Head from 'next/head';
 import slugify from 'react-slugify';
 import { useRouter } from 'next/navigation'
+import ContextPage from '../ContextPage';
 
 function SearchBar() {
+  const { setHeader, setLoader } = useContext(ContextPage);
   const [value, setValue] = useState("");
   const router = useRouter()
 
@@ -22,23 +24,22 @@ function SearchBar() {
   };
 
   const onKeyUp = (query) => {
-    if (query !== "") {
-        query = query.trim();
-
-      if (query === "") {
-        router.push("/");
-      } else {
-
-        router.push(`/search?s=${slugify(query)}`)
-      }
+    if (query === "") {
+      setHeader("Trang chủ");
+      setLoader(true);
+      router.push("/");
+    } else {
+      setHeader("Kết quả tìm kiếm : " +  value)
+      setLoader(true);
+      router.push(`/search?s=${slugify(query)}`)
     }
   };
 
   return (
     <>
-    <Head>
-        <title>Movies</title>
-    </Head>
+    {/*<Head>*/}
+    {/*    <title>Movies</title>*/}
+    {/*</Head>*/}
 
     <div className='flex h-full w-full items-center justify-center md:w-full lg:max-w-[350px]'>
         <input

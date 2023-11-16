@@ -32,7 +32,7 @@ function MovieList(props) {
   return  <motion.div
   layout
   className="container relative mx-auto px-4 pt-4 pb-10 md:pt-10 md:pb-24">
- 
+    <AnimatePresence key={nanoid()} >
     <div className="w-full md:p-2
       grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 
       relative 
@@ -41,9 +41,9 @@ function MovieList(props) {
     >
       {currentItems &&
         currentItems.map((item) => (
-           <AnimatePresence key={nanoid()} >
+
            <MovieCard movie={item} />
-          </AnimatePresence> 
+
         ))}
     </div>
     {pageCount > 1 && <ReactPaginate
@@ -61,7 +61,7 @@ function MovieList(props) {
       nextClassName='flex items-center justify-center p-2 px-4 bg-white text-slate-700 h-10 rounded-full'
       pageClassName='flex items-center justify-center p-2 bg-white text-slate-700 w-10 h-10 rounded-full'
     />}
-  
+    </AnimatePresence>
   </motion.div>
 }
 export default MovieList;

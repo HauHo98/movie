@@ -1,8 +1,11 @@
+"use client";
+
 import React, { useRef } from 'react'
 import { useState } from 'react'
 import ReactPlayer from 'react-player'
 import { FaPlay } from 'react-icons/fa'
 import noimage from '../assets/images/movies.jpg';
+import Image from "next/image";
 const Player = ({movieDetail}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(true);
