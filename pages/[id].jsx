@@ -5,7 +5,7 @@ import {useRecoilValue} from "recoil";
 import {headerState} from "../constants/state";
 import {useRouter} from "next/router";
 
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+const API = process.env.NEXT_PUBLIC_API;
 
 export default function Category({data}) {
 	const header = useRecoilValue(headerState);
@@ -33,15 +33,11 @@ export default function Category({data}) {
 }
 
 export async function getServerSideProps(context) {
-	console.log(context)
 	const {page} = context.query;
 	const {id} = context.params;
 
-	const data = await fetch(
-		`https://api.themoviedb.org/3/discover/movie?with_genres=${id}&api_key=${API_KEY}&with_origin_country=IN&page=${page || '1'}`
-	);
+	const data = await fetch(API + 'posts-category/' + id + '?page=' + page || '1');
 	const dataJson = await data.json();
-	const result = dataJson.results;
 
-	return {props: {data: result}}
+	return {props: {data: dataJson}}
 }

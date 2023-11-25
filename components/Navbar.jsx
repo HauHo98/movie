@@ -4,26 +4,36 @@ import logo from "../assets/images/logo.png"
 import Image from 'next/image';
 import {motion} from "framer-motion";
 import SearchBar from "./SearchBar";
-import {MENU} from "../constants/menu";
 import {nanoid} from "nanoid";
 import Link from "next/link";
 import {useRecoilState, useSetRecoilState} from "recoil";
-import {headerState, searchState} from "../constants/state";
+import {headerState, loaderState, searchState} from "../constants/state";
 import {useRouter} from "next/router";
 
-function Navbar() {
+function Navbar({categories}) {
 	const [header, setHeader] = useRecoilState(headerState);
+	const setLoader = useSetRecoilState(loaderState);
 	const setSearch = useSetRecoilState(searchState);
 	const router = useRouter();
 
-	useEffect(()=>{
-		console.log(router)
-		if(router.pathname !== '/search'){
-			const itemFind = MENU.find(item => item.link.endsWith(router.query.id));
-			setSearch("")
-			setHeader(itemFind ? itemFind.headername: 'Trang chủ')
-		}
-	}, [router])
+	useEffect(() => {
+		router.events.on('routeChangeStart', () => {
+			setLoader(true)
+			if (router.pathname !== '/search') {
+				const itemFind = categories.find(item => item.slug === router.query.id);
+				setSearch("")
+				setHeader(itemFind ? itemFind.name : 'Trang chủ')
+			}
+		})
+		router.events.on('routeChangeComplete', () => {
+			setLoader(false)
+		})
+		return () => {
+			router.events.off('routeChangeComplete', () => {
+				setLoader(false)
+			})
+		};
+	}, [router.events]);
 
 	return (
 		<>
@@ -38,8 +48,8 @@ function Navbar() {
 						transition={{duration: 0.4}}
 					>
 						<div>
-							<Link href="/" >
-								<a className="flex items-center justify-center gap-2 logo" onClick={()=>{
+							<Link href="/">
+								<a className="flex items-center justify-center gap-2 logo" onClick={() => {
 									setHeader("Trang chủ")
 								}}>
 									<Image src={logo} alt="logo" className="w-12"/>
@@ -51,17 +61,16 @@ function Navbar() {
 
 					<ul className={`flex flex-wrap bg-transparent relative items-center gap-2
                  text-white text-[14px] text-center w-full md:w-[50%] flex-1 h-full md:h-auto`}>
-						{MENU.map((data) => (
-							<Link href={data.link} key={nanoid()} >
+						{categories.map((data) => (
+							<Link href={`/${data.slug}`} key={nanoid()}>
 								<a
 									onClick={() => {
-									console.log('oncloisd', data)
-									setHeader(data.headername);
-								}}>
-									<li className={`${header === data.headername ? 'bg-yellow-400 text-black' : 'bg-gray-900 text-white'} 
+										setHeader(data.name);
+									}}>
+									<li className={`${header === data.name ? 'bg-yellow-400 text-black' : 'bg-gray-900 text-white'} 
                             p-2 hover:bg-yellow-400 hover:text-black rounded-lg cursor-pointer`}>
 										<div
-											className="flex items-center gap-2">{data.Name}</div>
+											className="flex items-center gap-2">{data.name}</div>
 									</li>
 								</a>
 							</Link>

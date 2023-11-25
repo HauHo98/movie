@@ -3,7 +3,7 @@ import {AnimatePresence} from "framer-motion";
 import Header from "../components/Header";
 import Head from "next/head";
 
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+const API = process.env.NEXT_PUBLIC_API;
 
 export default function Search({searchResult}) {
 	return (
@@ -11,7 +11,7 @@ export default function Search({searchResult}) {
 			<Head>
 				<title>Movie | Tìm kiếm</title>
 				<meta property="og:title" content="Movie | Tìm kiếm"/>
-				<meta name="description" content="Movies Tìm kiếm" />
+				<meta name="description" content="Movies Tìm kiếm"/>
 				<meta property="og:description" content="Movies Tìm kiếm"/>
 				<meta property="og:type" content="website"/>
 				<meta property="url" content={process.env.NEXT_PUBLIC_APP_SITE}/>
@@ -23,7 +23,7 @@ export default function Search({searchResult}) {
 				<div
 					className="container relative mx-auto p-4">
 					<AnimatePresence>
-						{searchResult.length > 0 ?
+						{searchResult.data.length > 0 ?
 							<MovieList movies={searchResult}/> :
 							<div className="text-center text-xl"><p>Không tìm thấy phim</p></div>
 						}
@@ -36,10 +36,20 @@ export default function Search({searchResult}) {
 
 export async function getServerSideProps(context) {
 	const {s, p} = context.query;
-	const data = await fetch(
-		`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&with_origin_country=IN&language=en-US&query=${s}&page=${p || '1'}&include_adult=false`
-	);
+	const data = await fetch(API + 'search?s=' + s);
 	const dataJson = await data.json();
 
-	return {props: {searchResult: dataJson.results}}
+	return {
+		props: {
+			searchResult: dataJson || {
+				code: 'fail',
+				data: [],
+				pagination: {
+					current_page: 1,
+					total: 0,
+					post_per_page: 10
+				}
+			}
+		}
+	}
 }

@@ -1,57 +1,52 @@
 "use client"
 import {nanoid} from "nanoid";
-import {useState} from "react";
-import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
-import ReactPaginate from "react-paginate";
+import React from "react";
 import MovieCard from "./MovieCard";
-import {AnimatePresence} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/router";
+import {useRecoilValue} from "recoil";
+import {loaderState} from "../constants/state";
+import ReactPaginate from "react-paginate";
+import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 
 const itemsPerPage = 10;
 
 function MovieList(props) {
-	const [itemOffset, setItemOffset] = useState(0);
+	const {data, pagination} = props.movies;
 	const router = useRouter();
+	const loader = useRecoilValue(loaderState)
 
-	const endOffset = itemOffset + itemsPerPage;
-	const currentItems = props.movies.slice(itemOffset, endOffset);
-	const pageCount = Math.ceil(props.movies.length / itemsPerPage);
+	const pageCount = Math.ceil(pagination.total / pagination.post_per_page);
 
 	const handlePageClick = (event) => {
-		console.log(router)
-		// const params = new URLSearchParams(searchParams);
-		// console.log(searchParams)
-		// params.set('page', event.selected + 1);
-		// replace(`${pathname}?${params.toString()}`);
-		//
 		router.push({
 			pathname: router.query.id,
-			query: { page: event.selected + 1 },
+			query: {page: event.selected + 1},
 		});
-
-		console.log(event);
-		const newOffset = (event.selected * itemsPerPage) % props.movies.length;
-		setItemOffset(newOffset);
 	};
+
 
 	return <>
 		<div
 			className="container relative mx-auto md:px-4 md:pt-4 md:pt-10">
-			<div className="w-full md:p-2
+			{loader ? <div className='fixed w-full h-screen z-50 top-0 left-0'><span
+				className="loader absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2"></span>
+				<div className="bg-[#181e30] w-full h-full absolute top-0 left-0"></div>
+			</div> : <motion.div
+				layout className="w-full md:p-2
       grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5
       relative
       gap-2 sm:gap-5
       justify-center"
 			>
 				<AnimatePresence>
-					{currentItems &&
-						currentItems.map((item) => (
-							<MovieCard movie={item} key={nanoid()}/>
-						))}
+					{data.map((item) => (
+						<MovieCard movie={item} key={nanoid()}/>
+					))}
 				</AnimatePresence>
-			</div>
+			</motion.div>}
 		</div>
-		{pageCount > 1 && <ReactPaginate
+		{pagination.total > 1 && <ReactPaginate
 			breakLabel="..."
 			nextLabel={<div className="flex items-center gap-2">Next <FaArrowRight/></div>}
 			onPageChange={handlePageClick}
