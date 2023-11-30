@@ -1,29 +1,14 @@
-"use client"
 import Head from "next/head";
-import Player from "../../components/Player";
 import {nanoid} from "nanoid";
-import {FaCaretRight} from "react-icons/fa";
 import MovieCardRelated from "../../components/MovieCardRelated";
-import React, {useEffect, useState} from "react";
-import {useRecoilState, useSetRecoilState} from "recoil";
-import {headerState, loaderState} from "../../constants/state";
+import React from "react";
 import {useRouter} from "next/router";
+import axios from "axios";
+import VideoPlayer from "../../components/VideoPlayer";
 
 const API = process.env.NEXT_PUBLIC_API;
-export default function MovieDetail({movieDetail, related}) {
-	const [isClient, setIsClient] = useState(false)
-	const setHeader = useSetRecoilState(headerState);
-	const [loader, setLoader] = useRecoilState(loaderState)
+export default function MovieDetail({movieDetail}) {
 	const router = useRouter();
-
-	useEffect(() => {
-		setIsClient(true)
-		setHeader("detail")
-
-		if (typeof window !== 'undefined') {
-			setLoader(false)
-		}
-	}, [])
 
 	const jsonLd = {
 		"@context": "https://schema.org",
@@ -44,11 +29,6 @@ export default function MovieDetail({movieDetail, related}) {
 		"regionsAllowed": "US,NL"
 	}
 
-	if (loader) return <div className='fixed w-full h-screen z-50 top-0 left-0'><span
-		className="loader absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2"></span>
-		<div className="bg-[#181e30] w-full h-full absolute top-0 left-0"></div>
-	</div>
-
 	return <>
 		<Head>
 			<title>Movies | {movieDetail.title}</title>
@@ -56,7 +36,7 @@ export default function MovieDetail({movieDetail, related}) {
 			<meta name='description' content={movieDetail.short_description}/>
 			<meta property="og:description" content={movieDetail.short_description}/>
 			<meta property="og:type" content="website"/>
-			{/*<meta name="keywords" content={movieDetail.genres.map(item => item.name).join(',')}/>*/}
+			<meta name="keywords" content={movieDetail.category}/>
 			<meta property="url" content={process.env.NEXT_PUBLIC_APP_SITE + '/movie/' + router.query.id}/>
 			<meta property="og:url" content={process.env.NEXT_PUBLIC_APP_SITE + '/movie/' + router.query.id}/>
 			<meta property="og:image" content={movieDetail.thumbnailUrl || ''}/>
@@ -69,10 +49,10 @@ export default function MovieDetail({movieDetail, related}) {
 		<div className='container mx-auto'>
 			<div className='relative flex'>
 				<div className='absolute h-full w-full'></div>
-				<h1 className='p-5 text-center text-2xl font-bold text-white'>{movieDetail.title}</h1>
+				<h1 className='p-5 text-center text-2xl font-bold text-white' dangerouslySetInnerHTML={{__html: movieDetail.title}}></h1>
 			</div>
 			<div className="px-3">
-				{isClient && <Player movieDetail={movieDetail}/>}
+				<VideoPlayer src={movieDetail.link_video} />
 			</div>
 
 			<div>
@@ -87,42 +67,21 @@ export default function MovieDetail({movieDetail, related}) {
 			<div className='flex flex-col p-4'>
 				<h2 className="p-2 text-xl font-semibold">Thể loại</h2>
 				<div className='flex flex-wrap gap-2'>
-					{/*{movieDetail.genres.map((tag) => (*/}
-					{/*	<div key={tag.id} className='rounded-full bg-gray-800 px-4 py-1 font-semibold text-white'>{tag.name}</div>*/}
-					{/*))}*/}
+					{movieDetail.category}
 				</div>
 			</div>
 
-			{/*{castData.length > 0 && <div className='flex flex-col p-4'>*/}
-			{/*	<h2 className="p-2 text-xl font-semibold">Diễn viên</h2>*/}
-			{/*	<div className="md:px-5 flex flex-row max-w-full flex-start overflow-x-auto relative*/}
-			{/*scrollbar-thin scrollbar-thumb-gray-500/20 scrollbar-track-gray-900/90 md:pb-3">*/}
-			{/*		{castData.map((cast) => (*/}
-			{/*			<div key={nanoid()}>*/}
-			{/*				{cast.profile_path !== null ? <div*/}
-			{/*					className='mx-1 flex h-full flex-col items-center text-center min-w-[6rem] max-w-[9rem] md:min-w-[10rem] md:max-w-[10rem]'>*/}
-			{/*					<img src={"https://image.tmdb.org/t/p/w500" + cast.profile_path}*/}
-			{/*							 alt="Picture of the author" />*/}
-			{/*					<p className='text-white'>{cast.name}</p>*/}
-			{/*					<p className='text-amber-100'>({cast.character})</p>*/}
-			{/*				</div> : null}*/}
-			{/*			</div>*/}
-			{/*		))}*/}
-			{/*	</div>*/}
-			{/*</div>}*/}
-
-			{related.length > 0 && <div className='flex flex-col p-4'>
+			{movieDetail.related && <div className='flex flex-col p-4'>
 				<div className="flex justify-between">
 					<h2 className="py-2 text-xl font-semibold">Phim cùng thể loại</h2>
-					<div className='flex items-center gap-1'>Xem thêm <FaCaretRight/></div>
 				</div>
 				<div className="w-full md:p-2
-                   grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5
+                   grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5
                    relative
                    gap-2 sm:gap-5
                    justify-center">
-					{related &&
-						related.slice(0, 5).map((item) => (
+					{movieDetail.related &&
+						movieDetail.related.slice(0, 5).map((item) => (
 							<MovieCardRelated key={nanoid()} movie={item}/>
 						))}
 				</div>
@@ -132,13 +91,30 @@ export default function MovieDetail({movieDetail, related}) {
 	</>
 }
 
-export async function getServerSideProps(context) {
-	const {id} = context.query;
-	const data = await fetch(API + 'post/' + id);
-	const resultMovie = await data.json();
-
-	const dataRelated = await fetch(API + 'posts-category/' + 'phim-viet-nam');
-	const dataRelatedJson = await dataRelated.json();
-
-	return {props: {movieDetail: resultMovie.data, related: dataRelatedJson.data.filter(item => item.slug !== id) || []}}
+export async function getStaticProps({params}) {
+	return axios.all([
+		axios.get(API + 'category'), 
+		axios.get(API + 'sub-category'),
+		axios.get(API + 'post/' + params.id), 
+	]).then(axios.spread((obj1, obj2, obj3) => {
+		
+		return {props: {
+			categories: obj1.data,
+			categoriesSub: obj2.data,
+			movieDetail: obj3.data.data,
+		}, revalidate: 60};
+	}));
 }
+
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      {
+        params: { id: 'the-killer' },
+      },
+    ],
+    fallback: "blocking"
+  }
+}
+ 

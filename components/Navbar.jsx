@@ -1,16 +1,16 @@
 "use client"
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import logo from "../assets/images/logo.png"
 import Image from 'next/image';
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import SearchBar from "./SearchBar";
-import {nanoid} from "nanoid";
+import { nanoid } from "nanoid";
 import Link from "next/link";
-import {useRecoilState, useSetRecoilState} from "recoil";
-import {headerState, loaderState, searchState} from "../constants/state";
-import {useRouter} from "next/router";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { headerState, loaderState, searchState } from "../constants/state";
+import { useRouter } from "next/router";
 
-function Navbar({categories}) {
+function Navbar({ categories }) {
 	const [header, setHeader] = useRecoilState(headerState);
 	const setLoader = useSetRecoilState(loaderState);
 	const setSearch = useSetRecoilState(searchState);
@@ -43,16 +43,16 @@ function Navbar({categories}) {
 				<div className="flex flex-col gap-4 sm:flex-row">
 					<motion.div
 						className="w-[150px]"
-						animate={{scale: 1}}
-						initial={{scale: 0}}
-						transition={{duration: 0.4}}
+						animate={{ scale: 1 }}
+						initial={{ scale: 0 }}
+						transition={{ duration: 0.4 }}
 					>
 						<div>
 							<Link href="/">
 								<a className="flex items-center justify-center gap-2 logo" onClick={() => {
 									setHeader("Trang chủ")
 								}}>
-									<Image src={logo} alt="logo" className="w-12"/>
+									<Image src={logo} alt="logo" className="w-12" />
 									<h1 className="text-center text-2xl font-bold text-white">Movies</h1>
 								</a>
 							</Link>
@@ -61,23 +61,30 @@ function Navbar({categories}) {
 
 					<ul className={`flex flex-wrap bg-transparent relative items-center gap-2
                  text-white text-[14px] text-center w-full md:w-[50%] flex-1 h-full md:h-auto`}>
-						{categories.map((data) => (
-							<Link href={`/${data.slug}`} key={nanoid()}>
-								<a
-									onClick={() => {
-										setHeader(data.name);
-									}}>
-									<li className={`${header === data.name ? 'bg-yellow-400 text-black' : 'bg-gray-900 text-white'} 
-                            p-2 hover:bg-yellow-400 hover:text-black rounded-lg cursor-pointer`}>
-										<div
-											className="flex items-center gap-2">{data.name}</div>
-									</li>
-								</a>
-							</Link>
-						))}
+						{categories.map((data) => {
+							return header === data.name ? <li key={nanoid()} className={`${header === data.name ? 'bg-yellow-400 text-black' : 'bg-gray-900 text-white'} 
+							p-2 hover:bg-yellow-400 hover:text-black rounded-lg cursor-pointer`}>
+								<div
+									className="flex items-center gap-2">{data.name}</div>
+							</li>
+								:
+								<Link href={`/${data.slug}`} key={nanoid()}>
+									<a
+										onClick={() => {
+											setHeader(data.name);
+											setLoader(true)
+										}}>
+										<li className={`${header === data.name ? 'bg-yellow-400 text-black' : 'bg-gray-900 text-white'} 
+													p-2 hover:bg-yellow-400 hover:text-black rounded-lg cursor-pointer`}>
+											<div
+												className="flex items-center gap-2">{data.name}</div>
+										</li>
+									</a>
+								</Link>
+						})}
 					</ul>
 				</div>
-				<SearchBar/>
+				<SearchBar />
 			</nav>
 		</>
 	)

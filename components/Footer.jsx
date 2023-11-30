@@ -11,7 +11,7 @@ function Footer() {
 
 	return (
 		<>
-			<footer className="bg-[#020713] w-full grid grid-cols-2 px-4 md:px-8 py-10 z-40 relative gap-4 sm:gap-8">
+			<footer className="bg-[#020713] w-full grid grid-cols-1 md:grid-cols-2 px-4 md:px-8 py-10 z-40 relative gap-4 sm:gap-8">
 				<div>
 					<div>
 						<Link href="/">

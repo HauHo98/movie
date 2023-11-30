@@ -23,7 +23,6 @@ function MovieCard({movie}) {
 				<h1
 					className='break-normal break-words font-semibold leading-4 text-white text-md line-clamp-2 lg:text-lg'>{movie.title}</h1>
 				<p className='text-sm text-slate-300 line-clamp-1'>{movie.short_description}</p>
-				{/* {(movie.vote_average||0) > 7 ? <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-green-500'>{(movie.vote_average||0).toFixed(1)}</h1> : (movie.vote_average||0) > 5.5 ? <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-orange-400'>{(movie.vote_average||0).toFixed(1)}</h1> : <h1 className='rounded-full bg-zinc-900 p-2 font-bold text-red-600'>{(movie.vote_average||0).toFixed(1)}</h1>} */}
 			</div>
 
 			<Link href={`/movie/${movie.slug}`}>

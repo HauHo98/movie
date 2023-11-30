@@ -34,19 +34,33 @@ function SearchBar() {
 		}
 	};
 
+	const onSubmitSearch = (e) => {
+		e.preventDefault();
+		setLoader(true)
+		if (search === "") {
+			setHeader("Trang chủ");
+			router.push("/");
+		} else {
+			setHeader("Kết quả tìm kiếm : " + search)
+			router.push(`/search?s=${search}`)
+		}
+	}
+
 	return (
 		<>
 			<div className='flex h-full w-full items-center justify-center md:w-full lg:max-w-[350px]'>
-				<input
-					type="search"
-					name="searchpanel"
-					id="searchpanel"
-					placeholder='Nhập tên phim cần tìm kiếm ...'
-					className='h-10 w-full rounded-xl bg-slate-600 p-3 outline-none'
-					onKeyUp={(e) => handleSearch()}
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-				/>
+				<form onSubmit={(e)=> onSubmitSearch(e)}>
+					<input
+						type="search"
+						name="searchpanel"
+						id="searchpanel"
+						placeholder='Nhập tên phim cần tìm kiếm ...'
+						className='h-10 w-full rounded-xl bg-slate-600 p-3 outline-none'
+						// onKeyUp={(e) => handleSearch()}
+						value={search}
+						onChange={(e) => setSearch(e.target.value)}
+					/>
+				</form>
 			</div>
 		</>
 	)
