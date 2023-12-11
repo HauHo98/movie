@@ -30,7 +30,7 @@ function MovieCardRelated({ movie }) {
 						<h2 className='break-normal break-words font-semibold text-white text-sm md:text-lg' dangerouslySetInnerHTML={{__html: movie.title}}></h2>
 					</div>
 					{!movie.thumbnailUrl ? <img className='rounded-lg object-cover img h-full' src="/no-image.jpg" alt="" /> :
-						<LazyLoadImage effect='blur' className='rounded-lg object-cover img' src={movie.thumbnailUrl} alt="" />}
+						<LazyLoadImage effect='blur' className='object-cover img rounded-lg w-full h-full' src={movie.thumbnailUrl} alt="" />}
 				</a>
 			</Link>
 

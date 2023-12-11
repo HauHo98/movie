@@ -33,7 +33,7 @@ function MovieCard({movie}) {
 					<div className="w-full h-full">
 						{!movie.thumbnailUrl ?
 							<img className='object-cover img rounded-lg h-full overflow-hidden' src="/no-image.jpg" alt="no image"/> :
-							<LazyLoadImage effect='blur' className='object-cover img rounded-lg '
+							<LazyLoadImage effect='blur' className='object-cover img rounded-lg w-full h-full '
 														 src={movie.thumbnailUrl}/>}
 					</div>
 				</a>

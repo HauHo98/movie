@@ -35,6 +35,7 @@ export default function VideoPlayer({ src }) {
       <style jsx>{`
         video {
           max-width: 100%;
+          min-width: 100%;
         }   
       `}</style>
     </>
