@@ -27,6 +27,23 @@ export default function VideoPlayer({ src }) {
         'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
       );
     }
+
+    const handleKeyPress = (event) => {
+      // Check if the pressed key is either ArrowLeft or ArrowRight
+      if (event.key === 'ArrowLeft') {
+        video.currentTime -= 10; // Seek backward by 10 seconds
+      } else if (event.key === 'ArrowRight') {
+        video.currentTime += 10; // Seek forward by 10 seconds
+      }
+    };
+
+    // Add event listener for keydown on the document
+    document.addEventListener('keydown', handleKeyPress);
+
+    // Cleanup the event listener when the component is unmounted
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
   }, [src, videoRef]);
 
   return (
